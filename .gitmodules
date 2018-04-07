@@ -1,0 +1,3 @@
+[submodule "phpacl/App/Base/PhpGene"]
+	path = phpacl/App/Base/PhpGene
+	url = https://github.com/BernatGalmes/PhpGene.git

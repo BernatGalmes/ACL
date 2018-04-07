@@ -1,0 +1,20 @@
+{
+  "repositories": [
+    {
+      "url": "https://github.com/BernatGalmes/PhpGene.git",
+      "type": "vcs"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "phpmailer/phpmailer": "~5.0",
+    "joshcam/mysqli-database-class": "~2.9.1",
+    "klein/klein": "2.1.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5"
+  },
+  "config": {
+    "optimize-autoloader": true
+  }
+}
