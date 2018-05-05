@@ -6,30 +6,48 @@
  * Time: 18:34
  */
 
-use App\config;
 use PhpGene\Messages;
-use System\App;
+use PHPACL\App;
 
 
-require_once __DIR__ . "/App/Core/Config.php";
-require_once __DIR__ . "/data/links.php";
-require_once __DIR__ . "/data/paths.php";
-require_once __DIR__ . "/data/lang.php";
-require_once __DIR__ . "/data/database.php";
-require_once __DIR__ . "/data/Constants.php";
-require_once PATH_DATA . '/lang.php';
+function require_files($path_folder){
+    foreach (glob($path_folder . "/*.php") as $filename) {
+        require_once $filename;
+    }
+}
 
+# load vendor
 require_once __DIR__ . "/vendor/autoload.php";
 
-require_once __DIR__ . '/App/Base/PhpGene/load.php';
-require_once __DIR__ . '/App/Base/Database/AccesBD.php';
+# load constants files
+require_files(__DIR__ . "/data/");
+
+$paths = array(
+    PATH_BASE,
+    PATH_CORE . "/Models",
+    PATH_APP
+);
+//echo get_include_path() . PATH_SEPARATOR . implode(PATH_SEPARATOR, $paths);
+//set_include_path(get_include_path() . PATH_SEPARATOR . PATH_APP);
+//print get_include_path();
+
+
+
+// load base folders files
+foreach (glob(PATH_BASE . "/*/*.php") as $filename) {
+    require_once $filename;
+}
+
+# load app base files
+require_files(PATH_BASE);
+
+require_once PATH_CORE . "/Config.php";
+require_once PATH_CORE . "/Models/User.php";
+require_files(PATH_CORE . "/Models/");
+require_files(PATH_APP . "/");
 
 Messages::setDebugMode(\Data\Config::DEBUG);
 
-// allways load all system models
-foreach (glob(PATH_CORE . "/System/Models/*.php") as $filename) {
-    require_once $filename;
-}
 
 $app = new App();
 if ($app->getStatus()->site_offline == 1 && !$app->getUser()->isAdmin()) {

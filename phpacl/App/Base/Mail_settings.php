@@ -6,7 +6,7 @@
  * Time: 21:55
  */
 
-namespace System;
+namespace PHPACL;
 
 use PhpGene\xml_data;
 

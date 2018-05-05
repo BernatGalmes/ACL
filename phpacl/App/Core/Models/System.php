@@ -6,7 +6,7 @@
  * Time: 11:08
  */
 
-namespace System;
+namespace PHPACL;
 
 
 use BD\AccesBD;

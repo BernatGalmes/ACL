@@ -1,6 +1,6 @@
 <?php
 
-namespace System;
+namespace PHPACL;
 
 use BD\AccesBD;
 use General\Controller;
@@ -9,9 +9,6 @@ use General\Validate;
 use PhpGene\Input;
 use PhpGene\Messages;
 use PhpGene\Token;
-
-require_once PATH_CORE . '/General/Controller.php';
-require_once PATH_CORE . '/System/User.php';
 
 /**
  * Class Users Classe dedicada a gestionar tot el relacionat amb els usuaris.
@@ -102,7 +99,7 @@ class Users extends Controller
         $user = $app->getUser();
 
         if ($user->isLoggedIn()) {
-            Redirect::to(LINK_EAUDIT);
+            Redirect::to(LINK_APP);
         }
 
         if (!Input::exists()) {
@@ -133,7 +130,7 @@ class Users extends Controller
             $user = new User_logged();
             $login = $user->login(Input::get('username'), trim(Input::get('password')), $remember);
             if ($login) {
-                Redirect::to(LINK_EAUDIT);
+                Redirect::to(LINK_APP);
             } else {
                 self::$msgs->debug(AccesBD::getInstance()->abd_darreraConsulta());
                 self::$msgs->debug(AccesBD::getInstance()->abd_darrerError());

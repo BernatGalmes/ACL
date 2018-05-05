@@ -1,15 +1,11 @@
 <?php
 
-namespace System;
+namespace PHPACL;
 
-use BD\ABD_system;
-use General\Mail;
 use App\database_item;
-use General\Validate;
+use BD\AccesBD;
 use PhpGene\Messages;
 
-require_once PATH_CORE . '/Form/int_Form.php';
-require_once PATH_CORE . '/General/Mail.php';
 
 class User extends database_item
 {
@@ -117,7 +113,7 @@ class User extends database_item
 
         }
 
-        $aBD = ABD_system::getInstance();
+        $aBD = AccesBD::getInstance();
         $data = $aBD->getUser($field, $user);
         if (!empty($data)) {
             $this->_data = $data;
@@ -216,10 +212,10 @@ class User extends database_item
     {
         if ($this->hasLogo()){
             if (file_exists(PATH_PUBLIC . "/logos/" . $this->getID() . ".png"))
-                return LINK_EAUDIT . "logos/" . $this->getID() . ".png";
+                return LINK_APP . "logos/" . $this->getID() . ".png";
         }
 
-        return LINK_EAUDIT . "recursos/imatges/logo.png";
+        return LINK_APP . "recursos/imatges/logo.png";
     }
 
     public function getPathLogo()

@@ -6,10 +6,9 @@
  * Time: 21:08
  */
 
-namespace System;
+namespace PHPACL;
 
-use General\Redirect;
-use PhpGene\Messages;
+use PhpGene\Redirect;
 use PhpGene\xml_data;
 
 class App extends xml_data

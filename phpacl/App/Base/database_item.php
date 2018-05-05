@@ -10,8 +10,8 @@ namespace App;
 
 
 use BD\AccesBD;
-use System\User;
-use System\User_logged;
+use PHPACL\User;
+use PHPACL\User_logged;
 
 class database_item extends \PhpGene\database_item
 {

@@ -2,9 +2,9 @@
 namespace General;
 
 use PhpGene\Input;
-use System\Config;
-use System\Pages;
-use system\Role;
+use PHPACL\Config;
+use PHPACL\Pages;
+use PHPACL\Role;
 
 
 $role = $this->role;

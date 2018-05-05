@@ -11,7 +11,7 @@ $klein = new \Klein\Klein();
  * @param \Klein\ServiceProvider $service
  */
 $toHome = function ($request, $response, $service){
-    $response->redirect("/eaudit/index.php");
+    $response->redirect("/acl/index.php");
 };
 
 /**
@@ -20,7 +20,7 @@ $toHome = function ($request, $response, $service){
  * @param \Klein\ServiceProvider $service
  */
 $toIndex = function ($request, $response, $service){
-    $response->redirect($request->uri() . "index.php");
+    $response->redirect($request->uri() . "/index.php");
 
 };
 
@@ -47,11 +47,11 @@ $klein->onHttpError(function ($code, $router) {
     }
 });
 
-foreach (glob(PATH_CONTROLLERS . "/*.php") as $filename) {
+foreach (glob(PATH_CORE . "/Controllers/*.php") as $filename) {
     require_once $filename;
 }
 
-$klein->respond("GET", "/eaudit/", $toHome);
-$klein->respond("GET", "/eaudit/*", $toHome);
-$klein->respond("GET", "/eaudit/centros/", $toIndex);
+$klein->respond("GET", "/acl/", $toHome);
+$klein->respond("GET", "/acl/*", $toHome);
+$klein->respond("GET", "/acl/centros/", $toIndex);
 $klein->dispatch();

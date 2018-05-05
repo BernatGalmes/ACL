@@ -5,7 +5,7 @@
  * Date: 2/04/18
  * Time: 13:29
  */
-namespace System;
+namespace PHPACL;
 
 use BD\ABD_system;
 use Klein\Klein;
@@ -35,7 +35,7 @@ $klein->with('/users', function () use ($klein) {
      */
     $controller_edit_user = function ($request, $response, $service){
         try{
-            $user = new \System\User($request->id_user);
+            $user = new \PHPACL\User($request->id_user);
         }catch (\Exception $e){
             echo "the requested user doesn't exists";
             return false;

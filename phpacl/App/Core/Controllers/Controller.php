@@ -1,5 +1,5 @@
 <?php
-namespace System;
+namespace PHPACL;
 
 /**
  * Created by IntelliJ IDEA.
@@ -8,17 +8,16 @@ namespace System;
  * Time: 10:44
  */
 
-use BD\ABD_system;
 use Klein\Klein;
 
 function initSystem(){
-    require_once PATH_CORE . '/BD/ABD_system.php';
-    foreach (glob(PATH_CORE . "/System/Models/*.php") as $filename) {
-        require_once $filename;
-    }
-    foreach (glob(PATH_CORE . "/System/*.php") as $filename) {
-        require_once $filename;
-    }
+//    require_once PATH_CORE . '/BD/ABD_system.php';
+//    foreach (glob(PATH_CORE . "/System/Models/*.php") as $filename) {
+//        require_once $filename;
+//    }
+//    foreach (glob(PATH_CORE . "/System/*.php") as $filename) {
+//        require_once $filename;
+//    }
 }
 
 /**
@@ -30,7 +29,7 @@ function initSystem(){
  */
 function render_company_list ($request, $response, $service, $msgs, $compForm=null){
     if (empty($compForm)){
-        $compForm = new \System\Companyia();
+        $compForm = new \PHPACL\Companyia();
     }
     $companyies = ABD_system::getInstance()->getCompanies();
 
@@ -73,7 +72,7 @@ function permission_list ($msgs, $request, $response, $service){
     $service->render(Config::VIEW_FILE_PERMISSIONS,
         [
             'permissions' => $permissions,
-            'perm' => new \System\Permission(),
+            'perm' => new \PHPACL\Permission(),
             'msgs' => $msgs
         ]
     );
@@ -86,7 +85,7 @@ function permission_list ($msgs, $request, $response, $service){
  * @return \PhpGene\Messages
  */
 function permission_create ($request, $response, $service){
-    $role = new \System\Permission(
+    $role = new \PHPACL\Permission(
         [
             "tag"=> $request->tag,
             "description" => $request->description,
@@ -109,7 +108,7 @@ function permission_create ($request, $response, $service){
  * @return \PhpGene\Messages
  */
 function permission_edit ($request, $response, $service){
-    $perm = new \System\Permission($request->id_perm);
+    $perm = new \PHPACL\Permission($request->id_perm);
     $perm->setData([
             "tag"=> $request->tag,
             "description" => $request->description,
@@ -147,7 +146,7 @@ function permission_addroles ($request, $response, $service){
     if (empty($roles_add)){
         return new \PhpGene\Messages();
     }
-    $perm = new \System\Permission($request->id_perm);
+    $perm = new \PHPACL\Permission($request->id_perm);
     $perm->addRoles($roles_add);
     return $perm->getMessages();
 
@@ -164,7 +163,7 @@ function permission_remroles ($request, $response, $service){
     if (empty($roles_rem)){
         return new \PhpGene\Messages();
     }
-    $perm = new \System\Permission($request->id_perm);
+    $perm = new \PHPACL\Permission($request->id_perm);
     $perm->remRoles($roles_rem);
     return $perm->getMessages();
 }
@@ -186,7 +185,7 @@ $klein->with('/eaudit/system', function () use ($klein) {
      * @param \Klein\ServiceProvider $service
      */
     $controller_permissions = function ($request, $response, $service){
-        if (!\System\App::get()->isSuperUserSession()){
+        if (!\PHPACL\App::get()->isSuperUserSession()){
             $response->redirect("/eaudit");
             return;
         }
@@ -230,12 +229,12 @@ $klein->with('/eaudit/system', function () use ($klein) {
      * @param \Klein\ServiceProvider $service
      */
     $controller_dashboard = function ($request, $response, $service){
-        if (!(new \System\User_logged())->hasPermission('sys_dashboard')){
+        if (!(new \PHPACL\User_logged())->hasPermission('sys_dashboard')){
             $response->redirect("/eaudit");
             return;
         }
 
-        $response->redirect("/eaudit/system/index.php");
+//        $response->redirect("/eaudit/system/index.php");
     };
 
     /**
@@ -248,7 +247,7 @@ $klein->with('/eaudit/system', function () use ($klein) {
     $controller_list_companies = function ($request, $response, $service){
         $msgs = new \PhpGene\Messages();
 
-        $comp = new \System\Companyia();
+        $comp = new \PHPACL\Companyia();
         if ($request->action == \App\database_item::ACTION_INSERT){
             $comp->setAttr('name', $request->name);
             if ($comp->insert()){
@@ -275,7 +274,7 @@ $klein->with('/eaudit/system', function () use ($klein) {
 //            $response->redirect("/eaudit");
 //            return;
 //        }
-        $comp = new \System\Companyia($request->id_comp);
+        $comp = new \PHPACL\Companyia($request->id_comp);
         $msgs = $comp->getMessages();
         if (!empty($request->action)){
 

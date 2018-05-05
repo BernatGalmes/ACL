@@ -6,7 +6,7 @@
  * Time: 19:53
  */
 
-namespace System;
+namespace PHPACL;
 
 
 class Config extends \Data\Config
@@ -28,5 +28,5 @@ class Config extends \Data\Config
 
     const VIEW_FILE_ACCOUNT = self::PATH_VIEWS . "account.php";
 
-    const LINK_ROLES = LINK_EAUDIT . "system/roles/";
+    const LINK_ROLES = LINK_APP . "system/roles/";
 }

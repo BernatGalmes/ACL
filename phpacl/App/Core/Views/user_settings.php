@@ -8,8 +8,8 @@ use App\Seguritat;
 use PhpGene\Input;
 use PhpGene\Messages;
 use PhpGene\Token;
-use System\User;
-use System\Users;
+use PHPACL\User;
+use PHPACL\Users;
 
 require_once __DIR__ . '/../init.php';
 //require_once PATH_CORE . '/App/Mail_settings.php';

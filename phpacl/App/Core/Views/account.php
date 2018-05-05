@@ -1,5 +1,5 @@
 <?php
-$user = new \System\User_logged();
+$user = new \PHPACL\User_logged();
 
 $get_info_id = $user->getID();
 $raw = date_parse($user->getAttr('join_date'));

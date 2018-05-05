@@ -1,13 +1,8 @@
 <?php
 
-namespace System;
+namespace PHPACL;
 
-require_once PATH_CORE . '/BD/ABD_system.php';
-require_once PATH_CORE . '/System/User.php';
-
-use App\config;
 use BD\AccesBD;
-use General\Redirect;
 use PhpGene\Session;
 
 /**
@@ -127,7 +122,7 @@ class User_logged extends User
 
     public function hasPermission($tag){
         if (!$this->_isLoggedIn){
-            Redirect::to(LINK_EAUDIT);
+            Redirect::to(LINK_APP);
         }
 
         global $app;

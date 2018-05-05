@@ -8,7 +8,7 @@
 
 require_once PATH_INCLUDES . '/System/header.php';
 
-$perm = new \System\Permission($this->id_perm);
+$perm = new \PHPACL\Permission($this->id_perm);
 ?>
 <div id="modal-edit-perm" class="modal fade" role="dialog">
     <div class="modal-dialog">
