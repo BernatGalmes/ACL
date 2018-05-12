@@ -51,7 +51,6 @@ foreach (glob(PATH_CORE . "/Controllers/*.php") as $filename) {
     require_once $filename;
 }
 
-$klein->respond("GET", "/acl/", $toHome);
-$klein->respond("GET", "/acl/*", $toHome);
-$klein->respond("GET", "/acl/centros/", $toIndex);
+require_once PATH_APP . "/Main/Controller.php";
+
 $klein->dispatch();

@@ -8,6 +8,7 @@
 namespace PHPACL;
 use App\database_item;
 use BD\ABD_system;
+use BD\AccesBD;
 use Klein\Klein;
 use PhpGene\Messages;
 
@@ -33,7 +34,7 @@ function role_page ($role, $request, $response, $service){
  * @param \Klein\ServiceProvider $service
  */
 function role_list ($msgs, $request, $response, $service){
-    $aBD = ABD_system::getInstance();
+    $aBD = AccesBD::getInstance();
     $roles = $aBD->getRoles();
     $service->render(Config::VIEW_FILE_ROLES,
         [
@@ -127,7 +128,7 @@ function role_remPermissions ($request, $response, $service){
     if (empty($perms_rem)){
         return $role;
     }
-    $aBD = ABD_system::getInstance();
+    $aBD = AccesBD::getInstance();
     foreach ($perms_rem as $id_perm){
         $aBD->unrelateRolePermission($role->getID(), $id_perm);
     }

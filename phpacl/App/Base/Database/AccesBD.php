@@ -1,6 +1,9 @@
 <?php
 
 namespace BD;
+use PHPACL\Permission;
+use PHPACL\Role;
+
 require_once __DIR__ . '/bd.php';
 
 /**
@@ -74,22 +77,6 @@ class AccesBD extends BD
     }
 
     /**
-     * If is admin user logged get all companies inside database, otherwhise get false
-     * @return array|bool
-     * @throws \Exception
-     */
-    public function getCompanies()
-    {
-        if (!(new User_logged())->isAdmin()) {
-            return false;
-        }
-
-        $this->db->orderBy('name', 'ASC');
-        return $this->db->get(\BD_main::TAULA_COMPANYIES, null, "*");
-    }
-
-
-    /**
      * @param $field
      * @param $value
      * @return array
@@ -118,59 +105,6 @@ class AccesBD extends BD
         }
     }
 
-    public function unRelateCenterUser($id_center, $id_user)
-    {
-        return $this->db->rawQuery(
-            "DELETE FROM " . \BD_main::TAULA_CLIENTSUSER .
-            " WHERE id_client= ? AND id_user= ?", [$id_center, $id_user]);
-    }
-
-    public function relateCenterUser($id_centro, $id_user){
-        $item = new database_item([
-            "id_client" => $id_centro,
-            "id_user" => $id_user
-        ], \BD_main::TAULA_CLIENTSUSER);
-        return $item->insert();
-    }
-
-    public function unRelateCenterCompany($id_center, $id_company)
-    {
-        return $this->db->rawQuery(
-            "DELETE FROM " . \BD_main::TAULA_CLIENTCOMPANYIA .
-            " WHERE id_company = ? AND id_client = ?", [$id_company, $id_center]);
-    }
-
-
-    public function getCentersUser($id_user)
-    {
-        $id_centros = $this->abd_consultaTaula(\BD_main::TAULA_CLIENTSUSER,
-            '*', 'id_user=' . $id_user);
-
-        $centros = [];
-        foreach ($id_centros as $data_centro) {
-            $centros[$data_centro['id_client']] = new Centro($data_centro['id_client']);
-        }
-        return $centros;
-    }
-
-    public function getUsersCenter($id_center)
-    {
-        $dataUsuarios = $this->abd_consultaTaula(\BD_main::TAULA_CLIENTSUSER,
-            '*', 'id_client=' . $id_center);
-
-        $users = [];
-        foreach ($dataUsuarios as $data_user) {
-            $users[$data_user['id_user']] = new User($data_user['id_user']);
-        }
-        return $users;
-
-    }
-
-    public function getPage($id)
-    {
-        return $this->abd_getItem(\BD_main::TAULA_PAGES, $id, 'id, page, private');
-    }
-
     public function getRoles()
     {
         $rolesData =  $this->query("SELECT * FROM " . \BD_main::TAULA_ROLES);
@@ -190,56 +124,6 @@ class AccesBD extends BD
             $res[] = new Permission($r);
         }
         return $res;
-    }
-
-    /**
-     * @param $id_center
-     * @return Companyia[]
-     */
-    public function getCompaniesCenter($id_center)
-    {
-        $dataComp = $this->abd_consultaTaula(\BD_main::TAULA_CLIENTCOMPANYIA,
-            '*', 'id_client=' . $id_center);
-
-        $companies = [];
-        foreach ($dataComp as $data_comp) {
-            $companies[$data_comp['id_company']] = new Companyia($data_comp['id_company']);
-        }
-        return $companies;
-    }
-
-    public function getIdCentersCompany($id_comp)
-    {
-        $dataComp = $this->abd_consultaTaula(\BD_main::TAULA_CLIENTCOMPANYIA,
-            'id_client', 'id_company=' . $id_comp);
-
-        return array_column($dataComp, 'id_client');
-    }
-
-    /**
-     * @param $pagesAdd
-     * @param $roleId
-     * @return bool
-     */
-    public function addPagesRole($pagesAdd, $roleId)
-    {
-        $data = [];
-        foreach ($pagesAdd as $id_page) {
-            $data[] = ["permission_id" => $roleId, "page_id" => $id_page];
-        }
-
-        $ids = $this->db->insertMulti('permission_page_matches', $data);
-        return $ids;
-    }
-
-    public function deletePagesRole($pagesRemove, $roleId)
-    {
-
-        foreach ($pagesRemove as $id_page) {
-            $this->db->where("permission_id = " . $roleId . " AND page_id = " . $id_page);
-            $this->db->delete('permission_page_matches');
-        }
-
     }
 
     public function updateRole($roleId, $data)

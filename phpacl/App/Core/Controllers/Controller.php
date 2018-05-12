@@ -8,6 +8,7 @@ namespace PHPACL;
  * Time: 10:44
  */
 
+use BD\AccesBD;
 use Klein\Klein;
 
 function initSystem(){
@@ -18,31 +19,6 @@ function initSystem(){
 //    foreach (glob(PATH_CORE . "/System/*.php") as $filename) {
 //        require_once $filename;
 //    }
-}
-
-/**
- * @param \PhpGene\Messages $msgs
- * @param \Klein\Request $request
- * @param \Klein\Response $response
- * @param \Klein\ServiceProvider $service
- * @throws \Exception
- */
-function render_company_list ($request, $response, $service, $msgs, $compForm=null){
-    if (empty($compForm)){
-        $compForm = new \PHPACL\Companyia();
-    }
-    $companyies = ABD_system::getInstance()->getCompanies();
-
-    require_once PATH_INCLUDES . '/System/header.php';
-    $service->render(Config::VIEW_FILE_COMPANIES,
-        [
-            'companies' => $companyies,
-            'comp' => $compForm,
-            'msgs' => $msgs
-        ]
-    );
-    require_once PATH_INCLUDES . '/System/footer.php'; // the final html footer copyright row + the external js calls
-    require_once PATH_INCLUDES . '/html_footer.php';
 }
 
 /**
@@ -67,7 +43,7 @@ function permission_page ($id_perm, $msgs, $request, $response, $service){
  * @param \Klein\ServiceProvider $service
  */
 function permission_list ($msgs, $request, $response, $service){
-    $aBD = ABD_system::getInstance();
+    $aBD = AccesBD::getInstance();
     $permissions = $aBD->getPermissions();
     $service->render(Config::VIEW_FILE_PERMISSIONS,
         [
@@ -85,7 +61,7 @@ function permission_list ($msgs, $request, $response, $service){
  * @return \PhpGene\Messages
  */
 function permission_create ($request, $response, $service){
-    $role = new \PHPACL\Permission(
+    $role = new Permission(
         [
             "tag"=> $request->tag,
             "description" => $request->description,

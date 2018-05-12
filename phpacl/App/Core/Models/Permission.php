@@ -10,9 +10,7 @@ namespace PHPACL;
 
 
 use App\database_item;
-use BD\ABD_system;
 use BD\AccesBD;
-use PhpGene\Messages;
 
 class Permission extends database_item
 {
@@ -71,11 +69,11 @@ class Permission extends database_item
     }
 
     function getRoles(){
-        return ABD_system::getInstance()->getRolesPermission($this->getID());
+        return AccesBD::getInstance()->getRolesPermission($this->getID());
     }
 
     function getNoneRoles(){
-        return ABD_system::getInstance()->getNoneRolesPermission($this->getID());
+        return AccesBD::getInstance()->getNoneRolesPermission($this->getID());
     }
 
     function addRoles($list_id_roles){
@@ -90,7 +88,7 @@ class Permission extends database_item
     }
 
     function remRoles($list_id_roles){
-        $aBD = ABD_system::getInstance();
+        $aBD = AccesBD::getInstance();
         foreach ($list_id_roles as $id_role){
             $aBD->unrelateRolePermission($id_role, $this->getID());
         }
