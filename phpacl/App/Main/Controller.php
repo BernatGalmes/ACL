@@ -6,6 +6,7 @@
  * Time: 22:05
  */
 
+use Respect\Validation\Validator as v;
 /**
  * @param \Klein\Request $request
  * @param \Klein\Response $response
@@ -14,7 +15,9 @@
  */
 $controller_main = function ($request, $response, $service){
     if (!(new \PHPACL\User_logged())->isLoggedIn()){
-        $service->render(PATH_APP . "/Main/Views/login.php");
+        $service->render(PATH_APP . "/Main/Views/login.php", [
+            'user' => new \PHPACL\User_logged()
+        ]);
     }else{
         $service->render(PATH_APP . "/Main/Views/index.php");
     }
@@ -27,6 +30,28 @@ $controller_main = function ($request, $response, $service){
  * @throws \Exception
  */
 $controller_login = function ($request, $response, $service){
+    echo "hello!!!";
+    $user = new \PHPACL\User_logged();
+    if (!$user->isLoggedIn()) {
+        if (v::stringType()->validate($request->username) &&
+            v::stringType()->validate($request->password)
+        ){
+            $user = new \PHPACL\User_logged();
+            $login = $user->login($request->username, trim($request->password));
+            if (!$login) {
+                $user->getMessages()->debug(\BD\AccesBD::getInstance()->abd_darreraConsulta());
+                $user->getMessages()->debug(\BD\AccesBD::getInstance()->abd_darrerError());
+                $user->getMessages()->posa_error('Login fallido, por favor compruebe sus credenciales.');
+                $service->render(PATH_APP . "/Main/Views/login.php", [
+                    'user' => $user
+                ]);
+                return;
+            }
+        }
+    }
+
+    $response->redirect(LINK_APP)->send();
+
 
 };
 
@@ -51,8 +76,19 @@ $controller_logout = function ($request, $response, $service){
     $response->redirect("/acl");
 };
 
+/**
+ * @param \Klein\Request $request
+ * @param \Klein\Response $response
+ * @param \Klein\ServiceProvider $service
+ * @throws \Exception
+ */
+$controller_users_list = function ($request, $response, $service){
+    // TODO: place users list view controller
+};
+
 $klein->respond("GET", "/acl/", $controller_main);
 $klein->respond("GET", "/acl/logout", $controller_logout);
-$klein->respond("GET", "/acl/login", $controller_login);
+$klein->respond("POST", "/acl/login", $controller_login);
+$klein->respond("GET", "/acl/users", $controller_users_list);
 $klein->respond("GET", "/acl/forgot_password", $controller_forgot_pass);
 $klein->respond("GET", "/acl/*", $controller_main);

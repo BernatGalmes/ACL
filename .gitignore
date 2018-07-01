@@ -1,2 +1,7 @@
 phpacl/vendor
 phpacl/data
+phpacl/composer.lock
+
+public_html/acl/recursos/css
+public_html/acl/recursos/js
+public_html/acl/recursos/fonts

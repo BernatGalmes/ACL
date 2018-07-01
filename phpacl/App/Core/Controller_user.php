@@ -13,6 +13,7 @@ use PhpGene\Token;
 /**
  * Class Users Classe dedicada a gestionar tot el relacionat amb els usuaris.
  * @package System
+ * @deprecated
  */
 class Users extends Controller
 {

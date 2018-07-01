@@ -77,10 +77,10 @@ include PATH_VIEWS . "/navigation.php";
                     <img src="/acl/recursos/imatges/logo.png" alt="PHPacl">
                 </div>
                 <div class="missatges"><?php
-//                    echo $msgs->html();
+                    echo $this->user->getMessages()->html();
                     ?>
                 </div>
-                <form name="login" class="form-signin" action="login.php" method="post">
+                <form name="login" class="form-signin" action="login" method="post">
                     <h2 class="form-signin-heading">Login: </h2>
                     <div class="form-group">
                         <label for="username"><span class="glyphicon glyphicon-user"></span> Nombre de
