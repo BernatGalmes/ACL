@@ -8,6 +8,7 @@
 namespace PHPACL;
 
 use BD\ABD_system;
+use Core\Controllers\Pages;
 use Klein\Klein;
 
 function render_user_edit($service, $user, $msgs){
@@ -128,9 +129,7 @@ $klein->with('/users', function () use ($klein) {
         render_user_edit($service, $user, $user->getMessages());
     };
 
-    $klein->respond(['POST', 'GET'], '/', function ($request, $response, $service){
-        $response->redirect("/eaudit/system/admin_users.php");
-    });
+    $klein->respond(['POST', 'GET'], '/', Pages::get('users_list'));
 
     $klein->respond(['POST', 'GET'], '/[i:id_user]/[remove|update|centro:action]?', $controller_edit_user);
     $klein->respond(['POST', 'GET'], '/[i:id_user]/upload_logo', $controller_upload_logo);

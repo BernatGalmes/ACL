@@ -17,18 +17,8 @@
     <link rel="shortcut icon" href="/acl/recursos/imatges/icon-pages.ico">
     <title>Bacter Control - eaudit</title>
 
-    <!-- Bootstrap Core CSS -->
-    <!-- AKA Primary CSS -->
-    <link href="<?= LINK_CSS ?>Bootstrap-3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= LINK_CSS ?>acl-main.min.css" rel="stylesheet">
 
-    <!-- Template CSS -->
-    <!-- AKA Secondary CSS -->
-    <link href="<?= LINK_CSS ?>bootstrap-notifications.min.css" rel="stylesheet">
-    <link href="<?= LINK_CSS ?>eaudit.css" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-
-    <!-- Custom Fonts -->
-    <link href="<?= LINK_FONTS ?>css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="/acl/recursos/fonts/custom/style.css">
     <style>
         body {
@@ -116,17 +106,7 @@ include PATH_VIEWS . "/navigation.php";
     </div>
 </div>
 
-<!-- footers -->
-<!-- footers -->
-
-
-<!-- jQuery -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<!-- Bootstrap Core JavaScript -->
-<script src="<?= LINK_CSS ?>Bootstrap-3.3.6/js/bootstrap.min.js"></script>
-<script src="<?= LINK_JS ?>eaudit.js"></script>
-
-<!-- Place any per-page javascript here -->
+<script src="<?= LINK_JS ?>acl-main.min.js"></script>
 </body>
 </html>
 

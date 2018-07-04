@@ -9,17 +9,9 @@ namespace PHPACL;
  */
 
 use BD\AccesBD;
+use Core\Controllers\Pages;
 use Klein\Klein;
 
-function initSystem(){
-//    require_once PATH_CORE . '/BD/ABD_system.php';
-//    foreach (glob(PATH_CORE . "/System/Models/*.php") as $filename) {
-//        require_once $filename;
-//    }
-//    foreach (glob(PATH_CORE . "/System/*.php") as $filename) {
-//        require_once $filename;
-//    }
-}
 
 /**
  * @param \PhpGene\Messages $msgs
@@ -145,10 +137,9 @@ function permission_remroles ($request, $response, $service){
 }
 
 /** @var Klein $klein */
-$klein->with('/eaudit/system', function () use ($klein) {
-    initSystem();
+$klein->with('/acl/system', function () use ($klein) {
 
-    foreach (glob(PATH_CORE . "/System/Controllers/*.php") as $filename) {
+    foreach (glob("./Controllers/*.php") as $filename) {
         require_once $filename;
     }
 
@@ -198,106 +189,11 @@ $klein->with('/eaudit/system', function () use ($klein) {
         }
     };
 
-    /**
-     * Controller dashboard
-     * @param \Klein\Request $request
-     * @param \Klein\Response $response
-     * @param \Klein\ServiceProvider $service
-     */
-    $controller_dashboard = function ($request, $response, $service){
-        if (!(new \PHPACL\User_logged())->hasPermission('sys_dashboard')){
-            $response->redirect("/eaudit");
-            return;
-        }
 
-//        $response->redirect("/eaudit/system/index.php");
-    };
-
-    /**
-     * Controller dashboard
-     * @param \Klein\Request $request
-     * @param \Klein\Response $response
-     * @param \Klein\ServiceProvider $service
-     * @throws \Exception
-     */
-    $controller_list_companies = function ($request, $response, $service){
-        $msgs = new \PhpGene\Messages();
-
-        $comp = new \PHPACL\Companyia();
-        if ($request->action == \App\database_item::ACTION_INSERT){
-            $comp->setAttr('name', $request->name);
-            if ($comp->insert()){
-                $response->redirect('/eaudit/system/company/' . $comp->getID());
-                return;
-            }else{
-                $msgs->posa_error("Error insertando compañia.");
-            }
-        }
-
-       render_company_list($request, $response, $service, $msgs, $comp);
-    };
-
-    /**
-     * Controller company page
-     * @param \Klein\Request $request
-     * @param \Klein\Response $response
-     * @param \Klein\ServiceProvider $service
-     * @return bool
-     * @throws \Exception
-     */
-    $controller_company = function ($request, $response, $service){
-//        if (!\System\App::get()->isSuperUserSession()){
-//            $response->redirect("/eaudit");
-//            return;
-//        }
-        $comp = new \PHPACL\Companyia($request->id_comp);
-        $msgs = $comp->getMessages();
-        if (!empty($request->action)){
-
-            $comp->setAttr('name', $request->name);
-
-            switch ($request->action){
-                // update item
-                case \PhpGene\database_item::ACTION_UPDATE:
-                    if ($comp->update()){
-                        $msgs->posa_ok("Item updated correctly.");
-                    }else{
-                        $msgs->posa_error("Error updating item.");
-                    }
-                    break;
-
-                // remove item
-                case \PhpGene\database_item::ACTION_REMOVE:
-                    if ($comp->remove()){
-                        $msgs->posa_ok("Item removed successfully.");
-                        render_company_list($request, $response, $service, $msgs);
-                        return true;
-
-                    }else{
-                        $msgs->posa_error("Error deleting item.");
-                    }
-                    break;
-
-                default:
-                    return false;
-            }
-        }
-        $service->render(Config::VIEW_FILE_COMPANY,
-            [
-                'company' => $comp,
-                'msgs' => $msgs
-            ]
-        );
-        return true;
-    };
-    $klein->respond(['POST', 'GET'], '/', $controller_dashboard);
-
-
+    $klein->respond(['POST', 'GET'], '/', Pages::get('dashboard'));
     $klein->respond(['POST', 'GET'], '/permissions/[addrole|remrole|delete|edit|create:action]?/[*:id_perm]?', $controller_permissions);
 
-    // companies
-    $klein->respond(['POST', 'GET'], '/company/[i:id_comp]/[remove|update:action]?', $controller_company);
-    $klein->respond(['POST', 'GET'], '/companies/[insert:action]?', $controller_list_companies);
+//    $klein->respond("GET", "/users", Pages::get('users_list'));
     $klein->respond(['POST', 'GET'], '/account', function ($request, $response, $service){
         $service->render(Config::VIEW_FILE_ACCOUNT);
     });

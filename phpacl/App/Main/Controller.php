@@ -76,19 +76,10 @@ $controller_logout = function ($request, $response, $service){
     $response->redirect("/acl");
 };
 
-/**
- * @param \Klein\Request $request
- * @param \Klein\Response $response
- * @param \Klein\ServiceProvider $service
- * @throws \Exception
- */
-$controller_users_list = function ($request, $response, $service){
-    // TODO: place users list view controller
-};
+
 
 $klein->respond("GET", "/acl/", $controller_main);
 $klein->respond("GET", "/acl/logout", $controller_logout);
 $klein->respond("POST", "/acl/login", $controller_login);
-$klein->respond("GET", "/acl/users", $controller_users_list);
 $klein->respond("GET", "/acl/forgot_password", $controller_forgot_pass);
 $klein->respond("GET", "/acl/*", $controller_main);

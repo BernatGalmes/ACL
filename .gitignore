@@ -1,3 +1,5 @@
+node_modules/
+
 phpacl/vendor
 phpacl/data
 phpacl/composer.lock
