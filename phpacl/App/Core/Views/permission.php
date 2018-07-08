@@ -6,10 +6,63 @@
  * Time: 12:48
  */
 
-require_once PATH_INCLUDES . '/System/header.php';
-
 $perm = new \PHPACL\Permission($this->id_perm);
 ?>
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Bernat Galmés Rubert">
+    <link rel="shortcut icon" href="/acl/recursos/imatges/icon-pages.ico">
+    <title>Bacter Control - eaudit</title>
+
+    <link href="<?= LINK_CSS ?>acl-main.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/acl/recursos/fonts/custom/style.css">
+    <style>
+        body {
+            background-color: white;
+        }
+
+        .link:hover {
+            color: #696969;
+        }
+
+        .div-icon {
+            margin: 10px 10px 10px 10px;
+            text-align: center;
+            min-height: 20px;
+            padding: 19px;
+            background-color: #f5f5f5;
+            border: 1px solid #e3e3e3;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+        }
+
+        p.icon-text {
+            padding: 25px 0px;
+            text-align: center;
+            height: 0px;
+        }
+    </style>
+
+    <style>
+        body{
+            background-color: white;
+        }
+    </style>
+
+</head>
+<body>
+<?php
+include PATH_VIEWS . "/navigation.php";
+?>
+<div id="page-wrapper">
+    <div class="container">
+
 <div id="modal-edit-perm" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
@@ -137,8 +190,8 @@ $perm = new \PHPACL\Permission($this->id_perm);
         </div>
     </div>
 </div>
-
-<?php require_once PATH_INCLUDES . '/System/footer.php'; // the final html footer copyright row + the external js calls
-?>
-<?php require_once PATH_INCLUDES . '/html_footer.php'; // currently just the closing /body and /html
-?>
+    </div>
+</div>
+<script src="<?= LINK_JS ?>acl-main.min.js"></script>
+</body>
+</html>

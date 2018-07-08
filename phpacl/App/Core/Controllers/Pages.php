@@ -219,3 +219,48 @@ Pages::$c_pages['tasksList_task'] =
         }
 
     };
+
+/**
+ * @param \Klein\Request $request
+ * @param \Klein\Response $response
+ * @param \Klein\ServiceProvider $service
+ */
+Pages::$c_pages['permissions_list'] =
+    function ($request, $response, $service){
+        if (!\PHPACL\App::get()->isSuperUserSession()){
+            $response->redirect("/eaudit");
+            return;
+        }
+        // if bad request
+        if(in_array($request->action, ['edit', 'delete', 'addrole', "remrole"]) &&
+            empty($request->id_perm)){
+            $response->redirect("/eaudit/permissions");//TODO:
+            return;
+        }
+        switch ($request->action){
+            case "create":
+                $msgs = permission_create ($request, $response, $service);
+                break;
+            case "edit":
+                $msgs = permission_edit ($request, $response, $service);
+                break;
+            case "delete":
+                $msgs = permission_delete ($request, $response, $service);
+                break;
+            case "addrole":
+                $msgs = permission_addroles ($request, $response, $service);
+                break;
+            case "remrole":
+                $msgs = permission_remroles ($request, $response, $service);
+                break;
+            default:
+                $msgs = new \PhpGene\Messages();
+                break;
+        }
+        if(!empty($request->id_perm)){
+            permission_page($request->id_perm, $msgs, $request, $response, $service);
+        }else {
+            permission_list($msgs, $request, $response, $service);
+        }
+
+    };
