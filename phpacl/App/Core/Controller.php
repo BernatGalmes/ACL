@@ -11,6 +11,7 @@ namespace PHPACL;
 use BD\AccesBD;
 use Core\Controllers\Pages;
 use Klein\Klein;
+use PhpGene\Messages;
 
 
 /**
@@ -139,7 +140,10 @@ function permission_remroles ($request, $response, $service){
 /** @var Klein $klein */
 $klein->with('/acl/system', function () use ($klein) {
 
-    foreach (glob("./Controllers/*.php") as $filename) {
+//    echo __DIR__ . "/Controllers/*.php";
+//    Messages::debugVar(glob( __DIR__ . "/Controllers/*.php"));
+//    exit();
+    foreach (glob( __DIR__ . "/Controllers/*.php") as $filename) {
         require_once $filename;
     }
 
@@ -197,5 +201,53 @@ $klein->with('/acl/system', function () use ($klein) {
     $klein->respond(['POST', 'GET'], '/account', function ($request, $response, $service){
         $service->render(Config::VIEW_FILE_ACCOUNT);
     });
+});
+
+
+/** @var Klein $klein */
+$klein->with('/acl/system/users', function () use ($klein) {
+
+    /**
+     * Controller upload user logo
+     * @param \Klein\Request $request
+     * @param \Klein\Response $response
+     * @param \Klein\ServiceProvider $service
+     * @throws \Exception
+     */
+    $controller_upload_logo = function ($request, $response, $service){
+        $files = $request->files();
+        if ($files->exists("logo")) {
+            $upload_logo = $files->get("logo");;
+            $tmp_name_logo =  $upload_logo["tmp_name"];
+            if ($upload_logo['error'] == 0) { // if no error
+
+                // get image
+                $image = imagecreatefromstring(
+                    file_get_contents($tmp_name_logo)
+                );
+
+                list($ancho, $alto) = getimagesize($tmp_name_logo);
+                list($nuevo_ancho, $nuevo_alto) = getimagesize(PATH_PUBLIC . "/recursos/imatges/logo.png");
+
+                // resize image
+                $im_logo = imagecreatetruecolor($nuevo_ancho, $nuevo_alto);
+                imagecopyresized($im_logo, $image, 0, 0, 0, 0, $nuevo_ancho, $nuevo_alto, $ancho, $alto);
+
+                // save image
+                $res = imagepng($im_logo, PATH_PUBLIC . "/logos/" . $request->id_user . ".png");
+                if (!$res) {
+                    echo "error uploading file";
+                }
+            }
+        }
+        $user = new User($request->id_user);
+        render_user_edit($service, $user, $user->getMessages());
+    };
+
+    $klein->respond(['POST', 'GET'], '/', Pages::get('users_list'));
+
+    $klein->respond(['POST', 'GET'], '/[i:id_user]/[remove|update|centro:action]?', Pages::get('users_edit'));
+    $klein->respond(['POST', 'GET'], '/[i:id_user]/upload_logo', $controller_upload_logo);
+
 });
 

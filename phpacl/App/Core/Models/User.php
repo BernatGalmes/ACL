@@ -200,7 +200,7 @@ class User extends database_item
 
     public function hasLogo()
     {
-        $aBD = ABD_system::getInstance();
+        $aBD = AccesBD::getInstance();
         return
             $aBD->roleHasPermission($this->getAttr('permission_id'), "docs_auds_create") ||
             $aBD->roleHasPermission($this->getAttr('permission_id'), "docs_infs_create") ||
@@ -229,7 +229,7 @@ class User extends database_item
     }
     public static function authomaticUsername()
     {
-        $aBD = ABD_system::getInstance();
+        $aBD = AccesBD::getInstance();
         $nextId = $aBD->nextID(\BD_main::TAULA_USUARIS);
         $cero = '0';
 
@@ -264,49 +264,6 @@ class User extends database_item
     {
         return parent::remove();
         //TODO: decidir com gestionar les relacions amb documents i altres elements
-    }
-
-    /**
-     * @param $id_centro
-     * @return bool
-     * @throws \Exception
-     */
-    public function associateCentre($id_centro)
-    {
-        if ($this->isAssociatedCentre($id_centro)){
-            return false;
-        }
-        $aBD = ABD_system::getInstance();
-        $id = $aBD->relateCenterUser($id_centro, $this->getID());
-        if ($id == 0) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public function unassociateCentre($id_centro)
-    {
-        if (!$this->isAssociatedCentre($id_centro)){
-            return false;
-        }
-        $aBD = ABD_system::getInstance();
-        $aBD->unRelateCenterUser($id_centro, $this->getID());
-        return true;
-    }
-
-    public function isAssociatedCentre($id_centro){
-        $centros = $this->getCentros();
-        return isset($centros[$id_centro]);
-    }
-
-    /**
-     * @return Centro[]
-     */
-    public function getCentros()
-    {
-        $aBD = ABD_system::getInstance();
-        return $aBD->getCentersUser($this->getID());
     }
 
     public function getRole()

@@ -64,7 +64,7 @@ include PATH_VIEWS . "/navigation.php";
             <div class="col-md-2"></div>
 
             <?php if ((new \PHPACL\User_logged())->isAdmin()) { ?>
-                <div class="link div-icon col-md-2" data-urlLink='./system/admin_users.php'>
+                <div class="link div-icon col-md-2" data-urlLink='./system/users/'>
                         <span class="icon-icon-system-users ea-icon-main">
                         <span class="path1"></span><span class="path2"></span><span
                                     class="path3"></span><span class="path4"></span><span

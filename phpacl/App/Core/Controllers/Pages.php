@@ -9,9 +9,8 @@
 namespace Core\Controllers;
 
 
-use App\database_item;
 use BD\AccesBD;
-use PHPACL\Config;
+use function PHPACL\render_user_edit;
 use PHPACL\User_logged;
 use PhpGene\Messages;
 
@@ -48,31 +47,31 @@ Pages::$c_pages['users_list'] =
 
         $msgs = new Messages();
 
-        try {
-            $userForm = Users::FormCreate();
+//        try {
+//            $userForm = Users::FormCreate();
 
             $users = $aBD->getUsers();
-
-        } catch (\Exception $e) {
-            require_once PATH_HTML_HEAD . '/main.php';
-            $aBD = ABD_system::getInstance();
-            $msgs->debug($aBD->abd_darreraConsulta());
-            $msgs->debug($aBD->abd_darrerError());
-            $msgs->debug($e->getMessage() . 'in File: ' . $e->getFile());
-            $msgs->debug('Line: ' . $e->getLine());
-            $msgs->showMessages();
-            include PATH_INCLUDES . '/footer.php';
-            die();
-        }
-
-
-        $newPasswd = User::randomPassword();
+//
+//        } catch (\Exception $e) {
+//            require_once PATH_HTML_HEAD . '/main.php';
+//            $aBD = ABD_system::getInstance();
+//            $msgs->debug($aBD->abd_darreraConsulta());
+//            $msgs->debug($aBD->abd_darrerError());
+//            $msgs->debug($e->getMessage() . 'in File: ' . $e->getFile());
+//            $msgs->debug('Line: ' . $e->getLine());
+//            $msgs->showMessages();
+//            include PATH_INCLUDES . '/footer.php';
+//            die();
+//        }
 
 
-        $service->render(PATH_CORE . "list.php",
+//        $newPasswd = User::randomPassword();
+
+
+        $service->render(PATH_CORE . "/Views/users_list.php",
             [
-//                'lists' => $items,
-//                'form_taskslist' => $form_tasksList,
+                'users' => $users,
+                'permOps' => $permOps,
 //                'centros' => $centros
             ]
         );
@@ -80,6 +79,77 @@ Pages::$c_pages['users_list'] =
 
 
 
+/**
+ * @param \Klein\Request $request
+ * @param \Klein\Response $response
+ * @param \Klein\ServiceProvider $service
+ */
+Pages::$c_pages['users_edit'] =
+    function ($request, $response, $service){
+        if (!(new User_logged())->hasPermission("sys_config")){
+            echo '<div class="row">
+                    <div class="col-md-12">
+                    <h1>No tienes permiso para ver estos documentos</h1>
+                    </div>
+                  </div>';
+            return;
+        }
+        try{
+            $user = new \PHPACL\User($request->id_user);
+        }catch (\Exception $e){
+            echo "the requested user doesn't exists";
+            return false;
+        }
+        $msgs = $user->getMessages();
+        if (!empty($request->action)){
+
+            $user->setAttr('username', $request->username);
+            $user->setAttr('email', $request->email);
+            $user->setAttr('fname', $request->fname);
+            $user->setAttr('lname', $request->lname);
+            $user->setAttr('permission_id', $request->permission_id);
+
+            switch ($request->action){
+                // update item
+                case \PhpGene\database_item::ACTION_UPDATE:
+                    if ($user->update()){
+                        $msgs->posa_ok("Item updated correctly.");
+                    }else{
+                        $msgs->posa_error("Error updating item.");
+                    }
+                    break;
+
+                // remove item
+                case \PhpGene\database_item::ACTION_REMOVE:
+                    if ($user->remove()){
+                        $msgs->posa_ok("Item removed successfully.");
+                        $response->redirect("/eaudit/system/users/");
+                        return true;
+
+                    }else{
+                        $msgs->posa_error("Error deleting item.");
+                    }
+                    break;
+
+                case 'centro':
+                    if (isset($request->asocCentro)){
+                        if ($user->associateCentre($request->id_centre_asoc)){
+                            $msgs->posa_ok("centro associado correctamente");
+                        }else{
+                            $msgs->posa_error("Error asociando centro");
+                        }
+                    }elseif (!empty($request->desasocCentro)) {
+                        $user->unassociateCentre($request->desasocCentro);
+                    }
+                    break;
+                default:
+                    return false;
+            }
+        }
+
+        render_user_edit($service, $user, $msgs);
+        return true;
+    };
 /**
  * @param \Klein\Request $request
  * @param \Klein\Response $response

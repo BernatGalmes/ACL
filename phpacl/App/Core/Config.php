@@ -11,7 +11,7 @@ namespace PHPACL;
 
 class Config extends \Data\Config
 {
-    CONST PATH_MODULE = PATH_CORE . "/System/";
+    CONST PATH_MODULE = PATH_CORE . "/";
     const PATH_VIEWS = self::PATH_MODULE . "Views/";
     const PATH_MODELS = self::PATH_MODULE . "Models/";
 

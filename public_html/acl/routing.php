@@ -52,5 +52,6 @@ foreach (glob(PATH_CORE . "/Controllers/*.php") as $filename) {
 }
 
 require_once PATH_APP . "/Main/Controller.php";
+require_once PATH_APP . "/Core/Controller.php";
 
 $klein->dispatch();

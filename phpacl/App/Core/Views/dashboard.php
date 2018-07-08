@@ -321,8 +321,7 @@ include PATH_VIEWS . "/navigation.php";
             $(document).ready(function () {
                 $('[data-toggle="tooltip"]').tooltip();
                 $('[data-toggle="popover"]').popover();
-            })
-            ;
+            });
         </script>
 
         </div>
