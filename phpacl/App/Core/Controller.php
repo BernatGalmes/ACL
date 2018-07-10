@@ -25,6 +25,8 @@ $klein->with('/acl/system', function () use ($klein) {
     $klein->respond(['POST', 'GET'], '/', Pages::get('dashboard'));
     $klein->respond(['POST', 'GET'], '/permissions/[addrole|remrole|delete|edit|create:action]?/[*:id_perm]?', Pages::get('permissions_list'));
 
+    $klein->respond(['POST', 'GET'], '/mail_config', Pages::get('mail_config'));
+
     $klein->respond(['POST', 'GET'], '/account', function ($request, $response, $service){
         $service->render(Config::VIEW_FILE_ACCOUNT);
     });

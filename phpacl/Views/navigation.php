@@ -100,7 +100,7 @@ $user = new \PHPACL\User_logged();
 
                                 </li>
                                 <li class="divider"></li>
-                                <li><a href=""
+                                <li><a href="<?=LINK_APP?>system/users/"
                                        target="_self">Usuarios</a></li>
                                 <?php
                             } ?>

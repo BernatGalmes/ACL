@@ -18,7 +18,7 @@ $s_user = new \PHPACL\User_logged();
             if ($s_user->hasPermission('sys_dashboard')):
                 ?>
                 <li id="menu-dashBoard">
-                    <a href="<?=LINK_APP?>system/index.php">
+                    <a href="<?=LINK_APP?>system/">
                         <i class="fa fa-globe fa-lg"></i> DashBoard
                     </a>
                 </li>
@@ -26,7 +26,7 @@ $s_user = new \PHPACL\User_logged();
             if ($s_user->hasPermission('sys_users_list')):
                 ?>
                 <li id="menu-users">
-                    <a href="<?=LINK_APP?>system/admin_users.php">
+                    <a href="<?=LINK_APP?>system/users/">
                         <i class="fa fa-users fa-lg"></i> Gestionar usuarios
                     </a>
                 </li>
@@ -37,7 +37,7 @@ $s_user = new \PHPACL\User_logged();
             </li>
             <ul class="sub-menu collapse" id="menu-config">
             <?php
-            $link_page = LINK_APP . "system/email_settings.php";
+            $link_page = LINK_APP . "system/mail_config";
             if ($s_user->hasPermission('sys_mail')):
                 ?>
                 <li id="menu-mailSettings" class="link" data-urlLink="<?= $link_page ?>">Correo</li>

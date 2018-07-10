@@ -72,10 +72,10 @@ include PATH_VIEWS . "/navigation.php";
             <div class="container" id="main">
                 <div class="row">
                     <div class="page-header">
-    <div class="row">
-        <h1 align="center">Gestión del rol: <b><?= $role->getAttr('name') ?></b></h1>
-    </div>
-</div>
+                        <div class="row">
+                            <h1 align="center">Gestión del rol: <b><?= $role->getAttr('name') ?></b></h1>
+                        </div>
+                    </div>
 
                     <!-- Page Heading -->
                     <div class="row">

@@ -8,6 +8,7 @@
 
 ?>
 <!DOCTYPE html>
+<html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,51 +18,12 @@
     <link rel="shortcut icon" href="/acl/recursos/imatges/icon-pages.ico">
     <title>Bacter Control - eaudit</title>
 
-    <link href="<?= LINK_CSS ?>acl-main.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="/acl/recursos/fonts/custom/style.css">
-    <style>
-        body {
-            background-color: white;
-        }
-
-        .link:hover {
-            color: #696969;
-        }
-
-        .div-icon {
-            margin: 10px 10px 10px 10px;
-            text-align: center;
-            min-height: 20px;
-            padding: 19px;
-            background-color: #f5f5f5;
-            border: 1px solid #e3e3e3;
-            border-radius: 4px;
-            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
-            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
-        }
-
-        p.icon-text {
-            padding: 25px 0px;
-            text-align: center;
-            height: 0px;
-        }
-    </style>
-
-    <style>
-        body{
-            background-color: white;
-        }
-    </style>
-
+    <link href="<?= LINK_CSS ?>acl-tables.min.css" rel="stylesheet">
 </head>
 <body>
 <?php
 include PATH_VIEWS . "/navigation.php";
 ?>
-<div id="page-wrapper">
-    <div class="container">
-
 <div id="modal-create-perm" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
@@ -94,71 +56,78 @@ include PATH_VIEWS . "/navigation.php";
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span
-                        class="glyphicon glyphicon-remove"></span> Cancel
+                            class="glyphicon glyphicon-remove"></span> Cancel
                 </button>
             </div>
         </div>
     </div>
 </div>
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-sm-12">
+            <?php
+            include __DIR__ . "/support/sidebar.php";
+            ?>
+            <div class="container" id="main">
+                <div class="row">
+                 <!-- Page Heading -->
+                    <div class="page-header">
+                        <h1 align="center">
+                            <span class="glyphicon glyphicon-lock"></span>Permisos
+                        </h1>
+                        <div id="missatges">
+                            <?= $this->msgs->html() ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-6">
+                                    <button type="button" class="btn btn-success btn-group-justified"
+                                            data-toggle="modal" data-target="#modal-create-perm">
+                                        <span class="glyphicon glyphicon-lock"></span>Añadir permiso
+                                    </button>
+                                </div>
+                            </div>
 
-<!-- Page Heading -->
-<div class="page-header">
-    <h1 align="center">
-        <span class="glyphicon glyphicon-lock"></span>Permisos
-    </h1>
-    <div id="missatges">
-        <?= $this->msgs->html() ?>
-    </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <table id="table-permissions" class="table table-striped table-hover table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th class="th-text">TAG</th>
+                                            <th class="th-text">Description</th>
+                                            <th class="th-text">creador</th>
+                                            <th class="th-text">ctime</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        //Cycle through users
+                                        foreach ($this->permissions as $p):
+                                            ?>
+                                            <tr class="row-permission" data-idPerm="<?= $p->getID(); ?>">
+                                                <td class="td-text"><?= $p->getAttr("tag") ?></td>
+                                                <td class="td-text"><?= $p->getAttr("description") ?></td>
+                                                <td class="td-text"><?= $p->getAttr("creador") ?></td>
+                                                <td class="td-text" data-order="<?=strtotime($p->getAttr("ctime"))?>"><?= $p->getAttr("ctime") ?></td>
+                                            </tr>
+                                        <?php
+                                        endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div> <!-- /.row -->
+        </div> <!-- /.container -->
+    </div> <!-- /.wrapper -->
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-offset-3 col-md-6">
-                <button type="button" class="btn btn-success btn-group-justified"
-                        data-toggle="modal" data-target="#modal-create-perm">
-                    <span class="glyphicon glyphicon-lock"></span>Añadir permiso
-                </button>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-12">
-                <table id="table-permissions" class="table table-striped table-hover table-bordered">
-                    <thead>
-                    <tr>
-                        <th class="th-text">TAG</th>
-                        <th class="th-text">Description</th>
-                        <th class="th-text">creador</th>
-                        <th class="th-text">ctime</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    //Cycle through users
-                    foreach ($this->permissions as $p):
-                        ?>
-                        <tr class="row-permission" data-idPerm="<?= $p->getID(); ?>">
-                            <td class="td-text"><?= $p->getAttr("tag") ?></td>
-                            <td class="td-text"><?= $p->getAttr("description") ?></td>
-                            <td class="td-text"><?= $p->getAttr("creador") ?></td>
-                            <td class="td-text" data-order="<?=strtotime($p->getAttr("ctime"))?>"><?= $p->getAttr("ctime") ?></td>
-                        </tr>
-                    <?php
-                    endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- footers -->
-</div> <!-- /.col -->
-</div> <!-- /.row -->
-</div> <!-- /.container -->
-</div> <!-- /.wrapper -->
 <!-- End of main content section -->
-<script src="<?= LINK_JS ?>acl-main.min.js"></script>
+<script src="<?= LINK_JS ?>acl-tables.min.js"></script>
 <script>
     $(document).ready(function () {
         $(".row-permission").on('click', function (e) {
@@ -203,9 +172,6 @@ include PATH_VIEWS . "/navigation.php";
         });
     });
 </script>
-</div>
-</div>
-
 </body>
 </html>
 

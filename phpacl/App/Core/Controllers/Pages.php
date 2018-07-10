@@ -349,3 +349,24 @@ Pages::$c_pages['roles_edit'] =
             role_list(new Messages(), $request, $response, $service);
         }
     };
+
+/**
+ * @param \Klein\Request $request
+ * @param \Klein\Response $response
+ * @param \Klein\ServiceProvider $service
+ */
+Pages::$c_pages['mail_config'] =
+    function ($request, $response, $service){
+        if (!(new User_logged())->hasPermission("sys_config")){
+            echo '<div class="row">
+                    <div class="col-md-12">
+                    <h1>No tienes permiso para ver estos documentos</h1>
+                    </div>
+                  </div>';
+            return;
+        }
+
+        // TODO: implement
+        echo "<h1>Not implemented yet</h1>";
+    };
+
