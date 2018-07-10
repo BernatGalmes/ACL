@@ -10,6 +10,7 @@ namespace PHPACL;
 
 
 use BD\ABD_system;
+use BD\AccesBD;
 use General\Validate;
 use App\database_item;
 use PhpGene\Messages;
@@ -49,7 +50,7 @@ class Role extends database_item
             )
         ));
         if ($validator->passed()) {
-            $aBD = ABD_system::getInstance();
+            $aBD = AccesBD::getInstance();
             $aBD->updateRole($this->getID(), $fields);
         }
     }
@@ -79,25 +80,25 @@ class Role extends database_item
      * @param $pagesAdd int[] list of pages ids
      * @param $pagesRemove int[] list of pages ids
      */
-    function updatePages($pagesAdd, $pagesRemove)
-    {
-        $aBD = ABD_system::getInstance();
+//    function updatePages($pagesAdd, $pagesRemove)
+//    {
+//        $aBD = AccesBD::getInstance();
+//
+//        $aBD->addPagesRole($pagesAdd, $this->getID());
+//        $aBD->deletePagesRole($pagesRemove, $this->getID());
+//    }
 
-        $aBD->addPagesRole($pagesAdd, $this->getID());
-        $aBD->deletePagesRole($pagesRemove, $this->getID());
-    }
-
-    public function pages()
-    {
-        $db = ABD_system::getInstance();
-
-        return $db->query("SELECT 
-            m.id as id, m.page_id as page_id, p.page as page, p.private as private
-	      FROM main_roleuris AS m
-	      INNER JOIN main_uris AS p ON m.page_id = p.id
-	      WHERE m.permission_id = ?", [$this->getAttr('id')]);
-
-    }
+//    public function pages()
+//    {
+//        $db = AccesBD::getInstance();
+//
+//        return $db->query("SELECT
+//            m.id as id, m.page_id as page_id, p.page as page, p.private as private
+//	      FROM main_roleuris AS m
+//	      INNER JOIN main_uris AS p ON m.page_id = p.id
+//	      WHERE m.permission_id = ?", [$this->getAttr('id')]);
+//
+//    }
 
 
     //Retrieve list of users who have a permission level
@@ -119,15 +120,15 @@ class Role extends database_item
 
     function users()
     {
-        $db = ABD_system::getInstance();
+        $db = AccesBD::getInstance();
         return $db->query("SELECT id, username FROM users WHERE permission_id = ?", array($this->getAttr('id')));
     }
 
     function getPermissions(){
-        return ABD_system::getInstance()->getPermissionsRole($this->getID());
+        return AccesBD::getInstance()->getPermissionsRole($this->getID());
     }
 
     function getNonePermissions(){
-        return ABD_system::getInstance()->getNonePermissionsRole($this->getID());
+        return AccesBD::getInstance()->getNonePermissionsRole($this->getID());
     }
 }

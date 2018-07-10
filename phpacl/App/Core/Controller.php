@@ -78,3 +78,28 @@ $klein->with('/acl/system/users', function () use ($klein) {
 
 });
 
+
+
+/** @var Klein $klein */
+$klein->with('/acl/system/roles', function () use ($klein) {
+
+    /**
+     * Controller all actions and views related with Roles
+     * @param \Klein\Request $request
+     * @param \Klein\Response $response
+     * @param \Klein\ServiceProvider $service
+     */
+    $controller_roles_create = function ($request, $response, $service){
+        $role = role_create($request, $response, $service);
+        if ($role->exists()){
+            role_page($role, $request, $response, $service);
+        }else{
+            role_list(new Messages(), $request, $response, $service);
+        }
+    };
+
+    $klein->respond(['POST', 'GET'], '/', Pages::get('roles_list'));
+    $klein->respond(['POST', 'GET'], '/[delete|edit|addPermissions|remPermissions:action]?/[i:id_role]?', Pages::get('roles_edit'));
+    $klein->respond(['POST', 'GET'], '/create', $controller_roles_create);
+});
+

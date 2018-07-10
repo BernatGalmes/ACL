@@ -14,7 +14,7 @@ var cssInFiles = {
     'main': [
         folder_raw_css_libs + 'bootstrap.css',
         folder_raw_css_libs + 'bootstrap-notifications.css',
-        folder_raw_css_custom + 'acl.css',
+        folder_raw_css_custom + 'phpacl.css',
         folder_raw_css_libs + 'font-pacifico.css',
         folder_raw_css_libs + 'font-awesome.css'
     ],
@@ -24,7 +24,7 @@ var cssInFiles = {
         folder_raw_css_libs + 'fixedHeader.bootstrap.css',
         folder_raw_css_libs + 'responsive.bootstrap.css',
         folder_raw_css_libs + 'bootstrap-notifications.css',
-        folder_raw_css_libs + 'acl.css',
+        folder_raw_css_custom + 'phpacl.css',
         folder_raw_css_libs + 'font-pacifico.css',
         folder_raw_css_libs + 'font-awesome.css'
     ]

@@ -27,39 +27,8 @@ $user = new \PHPACL\User_logged();
                     <li><a href="/eaudit/system/account"><i
                                     class="fa fa-fw fa-user"></i> <?= $user->getAttr('username') ?></a>
                     </li> <!-- Common for Hamburger and Regular menus link -->
-                    <li class="hidden-sm hidden-md hidden-lg"><a href="<?= LINK_EAUDIT ?>"><i
+                    <li class="hidden-sm hidden-md hidden-lg"><a href="<?= LINK_APP ?>"><i
                                     class="fa fa-fw fa-home"></i> Home</a></li> <!-- Hamburger menu link -->
-                    <?php if ($user->isAdmin()) {
-//                        $alertes = new General\Alertes($user);
-//                        ?>
-                        <!--                        <li class="dropdown dropdown-notifications">-->
-                        <!--                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">-->
-                        <!--                                <i id="notif-icon" data-count="--><? //= $alertes->num() ?><!--"-->
-                        <!--                                   class="glyphicon glyphicon-bell notification-icon"></i>-->
-                        <!--                            </a>-->
-                        <!---->
-                        <!--                            <div class="dropdown-container notif-container">-->
-                        <!--                                <div class="dropdown-toolbar">-->
-                        <!--                                    <div class="dropdown-toolbar-actions">-->
-                        <!--                                        <a href="#">Marcar como leido</a>-->
-                        <!--                                    </div>-->
-                        <!--                                    <h3 id="notif-title" class="dropdown-toolbar-title">Notificationes-->
-                        <!--                                        (--><? //= $alertes->num() ?><!--)</h3>-->
-                        <!--                                </div><!-- /dropdown-toolbar -->-->
-                        <!---->
-                        <!--                                <ul id="notif-list" class="dropdown-menu">-->
-                        <!--                                    --><? //= $alertes->getHtml() ?>
-                        <!--                                </ul>-->
-                        <!--                                <div class="dropdown-footer text-center">-->
-                        <!--                                    <a href="#">Ver todas</a>-->
-                        <!--                                </div><!-- /dropdown-footer -->-->
-                        <!--                            </div><!-- /dropdown-container -->-->
-                        <!--                        </li><!-- /dropdown -->-->
-                        <!--                        <!-- Hamburger menu link -->-->
-                        <!--                        <!--<li class="hidden-sm hidden-md hidden-lg"><a href=""><i class="fa fa-fw fa-cogs"></i> Admin Dashboard</a></li>-->-->
-                        <!--                        --><?php
-                    } // is user an admin
-                    ?>
                     <li class="dropdown hidden-xs"><a class="dropdown-toggle" href="#" data-toggle="dropdown"><i
                                     class="fa fa-fw fa-cog"></i><b class="caret"></b></a> <!-- regular user menu -->
                         <ul class="dropdown-menu"> <!-- open tag for User dropdown menu -->

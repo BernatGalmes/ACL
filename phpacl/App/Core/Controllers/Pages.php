@@ -10,7 +10,15 @@ namespace Core\Controllers;
 
 
 use BD\AccesBD;
+use PHPACL\Config;
 use function PHPACL\render_user_edit;
+use PHPACL\Role;
+use function PHPACL\role_addPermissions;
+use function PHPACL\role_delete;
+use function PHPACL\role_edit;
+use function PHPACL\role_list;
+use function PHPACL\role_page;
+use function PHPACL\role_remPermissions;
 use PHPACL\User_logged;
 use PhpGene\Messages;
 
@@ -263,4 +271,81 @@ Pages::$c_pages['permissions_list'] =
             permission_list($msgs, $request, $response, $service);
         }
 
+    };
+
+/*
+ *
+ * ROLES PAGES
+ *
+ */
+
+/**
+ * @param \Klein\Request $request
+ * @param \Klein\Response $response
+ * @param \Klein\ServiceProvider $service
+ */
+Pages::$c_pages['roles_list'] =
+    function ($request, $response, $service){
+        if (!(new User_logged())->hasPermission("sys_config")){
+            echo '<div class="row">
+                    <div class="col-md-12">
+                    <h1>No tienes permiso para ver estos documentos</h1>
+                    </div>
+                  </div>';
+            return;
+        }
+        // TODO: place ROLES list view controller
+
+        role_list(new Messages(), $request, $response, $service);
+    };
+
+
+
+/**
+ * @param \Klein\Request $request
+ * @param \Klein\Response $response
+ * @param \Klein\ServiceProvider $service
+ */
+Pages::$c_pages['roles_edit'] =
+    function ($request, $response, $service){
+        if (!(new User_logged())->hasPermission("sys_config")){
+            echo '<div class="row">
+                    <div class="col-md-12">
+                    <h1>No tienes permiso para ver estos documentos</h1>
+                    </div>
+                  </div>';
+            return;
+        }
+        if(!empty($request->id_role)){
+            switch ($request->action){
+                case "edit":
+                    $role = role_edit($request, $response, $service);
+                    break;
+                case "delete":
+                    $role = role_delete($request, $response, $service);
+                    break;
+                case "addPermissions":
+                    $role = role_addPermissions($request, $response, $service);
+                    break;
+                case "remPermissions":
+                    $role = role_remPermissions($request, $response, $service);
+                    break;
+                default:
+                    try {
+                        $role = new Role($request->id_role);
+                    }catch (\Exception $e){
+                        $role = new Role();
+                    }
+                    break;
+            }
+
+            if ($role->exists()){
+                role_page($role, $request, $response, $service);
+            }else{
+                role_list($role->getMessages(), $request, $response, $service);
+            }
+
+        }else {
+            role_list(new Messages(), $request, $response, $service);
+        }
     };
