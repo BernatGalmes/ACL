@@ -1,4 +1,6 @@
 import pandas as pd
+from dicttoxml import dicttoxml
+
 from src.DataBase import DataBase
 import json
 
@@ -9,8 +11,10 @@ DB_PATH_TABLES_QUERIES = "./data/tables.sql"
 DB_PATH_ROLES_DATA = "./data/roles.csv"
 DB_PATH_PERMISSIONS_DATA = "./data/permissions.csv"
 
-DB_PATH_DATABASE_CONFIG = "../phpacl/data/database_config.json"
+DB_PATH_DATABASE_CONFIG = "../phpacl/data/settings/database_config.json"
 
+APP_NAME = "PHPACL"
+APP_PATH_SETTINGS = "../phpacl/data/settings/settings.xml"
 
 """
     DATA TO CONFIGURE
@@ -108,6 +112,35 @@ def save_config():
         json.dump(db_config, fp)
 
 
+def generate_settings():
+
+    settings_data = {
+        "website": {
+            "site_name": APP_NAME,
+            "status": {
+                "force_ssl": 0,
+                "track_guest": 1,
+                "site_offline": 0
+            },
+            "superuser": 1
+        },
+        "mail": {
+            "websiteName": APP_NAME,
+            "smtp_server": "smtp.gmail.com",
+            "smtp_port": 587,
+            "transport": "tls",
+            "username": "",
+            "password": "",
+            "from_name": "",
+            "from_mail": "",
+            "verify_url": ""
+        }
+    }
+    xml = dicttoxml(settings_data, custom_root='settings', attr_type=False)
+    with open(APP_PATH_SETTINGS, 'wb') as fp:
+        fp.write(xml)
+
+
 # connect to server
 db = DataBase(host=db_config['host'], user=db_config['user'], password=db_config['pass'])
 db.execute("""DROP DATABASE """ + database_name) # TODO: remove this line
@@ -120,5 +153,4 @@ insert_data()
 
 save_config()
 
-
-
+generate_settings()
