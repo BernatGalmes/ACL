@@ -202,10 +202,10 @@ class User extends database_item
     {
         $aBD = AccesBD::getInstance();
         return
-            $aBD->roleHasPermission($this->getAttr('permission_id'), "docs_auds_create") ||
-            $aBD->roleHasPermission($this->getAttr('permission_id'), "docs_infs_create") ||
-            $aBD->roleHasPermission($this->getAttr('permission_id'), "docs_sams_create") ||
-            $aBD->roleHasPermission($this->getAttr('permission_id'), "docs_samaudi_create");
+            $aBD->roleHasPermission($this->getAttr('id_role'), "docs_auds_create") ||
+            $aBD->roleHasPermission($this->getAttr('id_role'), "docs_infs_create") ||
+            $aBD->roleHasPermission($this->getAttr('id_role'), "docs_sams_create") ||
+            $aBD->roleHasPermission($this->getAttr('id_role'), "docs_samaudi_create");
     }
 
     public function getLinkLogo()
@@ -269,7 +269,7 @@ class User extends database_item
     public function getRole()
     {
         if (empty($this->_role))
-            $this->_role = new Role($this->getAttr('permission_id'));
+            $this->_role = new Role($this->getAttr('id_role'));
         return $this->_role;
     }
 
@@ -310,7 +310,7 @@ class User extends database_item
         $validator = new Validate();
 
         try{
-            $role = new Role($this->getAttr('permission_id'));
+            $role = new Role($this->getAttr('id_role'));
         }catch(\Exception $e){
             $this->getMessages()->posa_error("<strong>Fallo!</strong> Rol incorrecto!");
             return false;
@@ -334,7 +334,7 @@ class User extends database_item
         $aBD = ABD_system::getInstance();
         $this->_data['vericode'] = rand(100000, 999999);
         $this->_data['join_date'] = date("Y-m-d H:i:s");
-        $this->_data['title'] = $aBD->abd_getItem(\BD_main::TAULA_ROLES, $this->_data['permission_id'], 'name')['name'];
+        $this->_data['title'] = $aBD->abd_getItem(\BD_main::TAULA_ROLES, $this->_data['id_role'], 'name')['name'];
 
         return true;
     }
@@ -390,10 +390,10 @@ class User extends database_item
             return false;
         }
 
-        if (isset($this->_data['permission_id'])) {
-            $aBD = ABD_system::getInstance();
+        if (isset($this->_data['id_role'])) {
+            $aBD = AccesBD::getInstance();
             try {
-                $this->_data['title'] = $aBD->abd_getItem(\BD_main::TAULA_ROLES, $this->_data['permission_id'], 'name')['name'];
+                $this->_data['title'] = $aBD->abd_getItem(\BD_main::TAULA_ROLES, $this->_data['id_role'], 'name')['name'];
             } catch (\Exception $e) {
                 return false;
             }
@@ -567,8 +567,8 @@ class User extends database_item
 
     public function hasPermission($tag){
         if(!isset($this->_perms_status[$tag])) {
-            $aBD = ABD_system::getInstance();
-            $this->_perms_status[$tag] = $aBD->roleHasPermission($this->_data['permission_id'], $tag);
+            $aBD = AccesBD::getInstance();
+            $this->_perms_status[$tag] = $aBD->roleHasPermission($this->_data['id_role'], $tag);
         }
         return $this->_perms_status[$tag];
     }

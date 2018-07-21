@@ -33,12 +33,13 @@ class BD
 
     function __construct()
     {
+        $config = json_decode(file_get_contents(PATH_DATABASE_CONFIG), true);
         $this->db = new \MysqliDb
         (
-            Config::DB['host'],
-            config::DB['user'],
-            config::DB['pass'],
-            config::DB['name']
+            $config['host'],
+            $config['user'],
+            $config['pass'],
+            $config['db']
         );
         self::$_instance = $this;
     }
