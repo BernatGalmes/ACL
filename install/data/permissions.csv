@@ -1,0 +1,12 @@
+tag;description
+sys_centros_config;Permite modificar la información de un centro: usuarios asociados, compañías, ...
+sys_centros_list;Acceso al listado de centros
+sys_centros_manage;Permite accesso a la página de gestión de un centro individual.
+sys_company_list;Acceso al listado de compañías.
+sys_config;Acceso a las funcionalidades de configuración del sistema.
+sys_dashboard;Acceso al cuadro de mando de la aplicación.
+sys_mail;Acceso a la configuración del correo.
+sys_man_perm;Permite gestionar los permisos y los roles de la aplicación
+sys_pass_reset;Permite restablecer el password.
+sys_users_list;Acceso al listado de usuarios.
+
