@@ -69,6 +69,15 @@ class App extends xml_data
         return self::$_instance;
     }
 
+    public function getName()
+    {
+        return $this->dom->website->site_name;
+    }
+
+    /**
+     * @return mixed
+     * @deprecated
+     */
     public function page()
     {
         $uri = $_SERVER['PHP_SELF'];

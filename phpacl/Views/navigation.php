@@ -5,6 +5,7 @@
  * Date: 5/05/18
  * Time: 22:16
  */
+$app = \PHPACL\App::get();
 $user = new \PHPACL\User_logged();
 ?>
 <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
@@ -17,7 +18,7 @@ $user = new \PHPACL\User_logged();
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" id="logoEmpresa" href=".">PHPACL</a>
+            <a class="navbar-brand" id="logoEmpresa" href="."><?=$app->getName()?></a>
         </div>
         <div class="collapse navbar-collapse navbar-top-menu-collapse navbar-right">
             <ul class="nav navbar-nav ">

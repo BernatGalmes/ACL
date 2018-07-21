@@ -16,7 +16,7 @@ $icon_user = "<i class='fa fa-user-plus' aria-hidden='true'></i>";
     <meta name="description" content="">
     <meta name="author" content="Bernat Galmés Rubert">
     <link rel="shortcut icon" href="/acl/recursos/imatges/icon-pages.ico">
-    <title>Bacter Control - eaudit</title>
+    <title><?=\PHPACL\App::get()->getName()?></title>
 
     <link href="<?= LINK_CSS ?>acl-tables.min.css" rel="stylesheet">
 </head>

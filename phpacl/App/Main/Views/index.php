@@ -14,7 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="Bernat Galmés Rubert">
     <link rel="shortcut icon" href="/acl/recursos/imatges/icon-pages.ico">
-    <title>Bacter Control - eaudit</title>
+    <title><?=\PHPACL\App::get()->getName()?></title>
 
     <!-- Bootstrap Core CSS -->
     <!-- AKA Primary CSS -->

@@ -51,14 +51,8 @@ class AccesBD extends BD
         $data['usersMonth'] = $this->db->count;
         $levels = $this->db->rawQuery("SELECT * FROM main_roles");
         $data['levels'] = $this->db->count;
-        $pages = $this->db->rawQuery("SELECT * FROM main_uris");
-        $data['pages'] = $this->db->count;
         $users = $this->db->rawQuery("SELECT * FROM users");
         $data['users'] = $this->db->count;
-        $clients = $this->db->rawQuery("SELECT * FROM main_clients");
-        $data['clients'] = $this->db->count;
-        $companys = $this->db->rawQuery("SELECT * FROM main_companys");
-        $data['companys'] = $this->db->count;
 
         return $data;
     }

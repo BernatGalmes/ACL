@@ -12,7 +12,7 @@ namespace General;
     <meta name="description" content="">
     <meta name="author" content="Bernat Galmés Rubert">
     <link rel="shortcut icon" href="/acl/recursos/imatges/icon-pages.ico">
-    <title>Bacter Control - eaudit</title>
+    <title><?=\PHPACL\App::get()->getName()?></title>
 
     <link href="<?= LINK_CSS ?>acl-main.min.css" rel="stylesheet">
 </head>
